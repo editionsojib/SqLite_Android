@@ -1,34 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView"
+    <EditText
+        android:id="@+id/edID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="@string/input_details"
-        android:textSize="30sp" />
+        android:autofillHints="number"
+        android:ems="10"
+        android:hint="@string/id"
+        android:inputType="number"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/edName"
+        android:layout_below="@+id/edID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:autofillHints="name"
         android:ems="10"
         android:hint="@string/name"
         android:inputType="text"
-        android:minHeight="48dp"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/edAddress"
@@ -53,9 +51,8 @@
         android:autofillHints="number"
         android:ems="10"
         android:hint="@string/age"
-        android:inputType="text"
-        android:minHeight="48dp"
-        tools:ignore="TouchTargetSizeCheck" />
+        android:inputType="number"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/edGender"
@@ -70,31 +67,5 @@
         android:inputType="text"
         android:minHeight="48dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/Add_btn"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edGender"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/add_data" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/show_btn"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Add_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/show_data" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/update_dataBtn"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/show_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:text="@string/update_data" />
 
 </RelativeLayout>

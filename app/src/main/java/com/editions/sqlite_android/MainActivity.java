@@ -3,6 +3,7 @@ package com.editions.sqlite_android;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     EditText edName, edAge, edGender, edAddress;
-    Button Add_btn, show_btn;
+    Button Add_btn, show_btn, update_dataBtn;
 
     MyDBHelper myDBHelper;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Add_btn = findViewById(R.id.Add_btn);
         edAddress = findViewById(R.id.edAddress);
         show_btn = findViewById(R.id.show_btn);
+        update_dataBtn = findViewById(R.id.update_dataBtn);
 
         //Database Creation & Insert Data
         myDBHelper = new MyDBHelper(this);
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Add_btn & show_btn Click Listener Here
         Add_btn.setOnClickListener(v -> Add_btn_Click());
         show_btn.setOnClickListener(v -> Show_btn_Click());
+        update_dataBtn.setOnClickListener(v -> Update_btn_Click());
 
     }//onCreate Method
 
@@ -107,6 +110,55 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.setTitle(title);
         alertDialog.setMessage(data);
         alertDialog.setCancelable(true);
+        alertDialog.show();
+    }
+
+    public void Update_btn_Click(){
+        //Create LayoutInfiltrator
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View view = layoutInflater.inflate(R.layout.update_layout, null);
+
+        //View Binding
+        EditText edID = view.findViewById(R.id.edID);
+        EditText edName = view.findViewById(R.id.edName);
+        EditText edAddress = view.findViewById(R.id.edAddress);
+        EditText edAge = view.findViewById(R.id.edAge);
+        EditText edGender = view.findViewById(R.id.edGender);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setCancelable(false);
+        builder.setTitle("Update Data");
+        builder.setPositiveButton("Update", (dialog, which) -> {
+            String id = edID.getText().toString();
+            String name = edName.getText().toString();
+            String address = edAddress.getText().toString();
+            String age = edAge.getText().toString();
+            String gender = edGender.getText().toString();
+
+            if (id.isEmpty() || name.isEmpty() || address.isEmpty() || age.isEmpty() || gender.isEmpty()){
+                Toast.makeText(this, "All Field Required", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "Update Successfully", Toast.LENGTH_SHORT).show();
+                SQLiteDatabase sqLiteDatabase = myDBHelper.getWritableDatabase();
+                sqLiteDatabase.execSQL("UPDATE Student_table SET name = '"+name+"', address = '"+address+"', age = '"+age+"', gender = '"+gender+"' WHERE id = '"+id+"'");
+
+                edID.setText("");
+                edName.setText("");
+                edAddress.setText("");
+                edAge.setText("");
+                edGender.setText("");
+
+
+
+            }
+
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+
+        });
+        AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
     }
