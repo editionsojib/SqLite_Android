@@ -1,0 +1,113 @@
+package com.editions.sqlite_android;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText edName, edAge, edGender, edAddress;
+    Button Add_btn, show_btn;
+
+    MyDBHelper myDBHelper;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        //View Binding
+        edName = findViewById(R.id.edName);
+        edAge = findViewById(R.id.edAge);
+        edGender = findViewById(R.id.edGender);
+        Add_btn = findViewById(R.id.Add_btn);
+        edAddress = findViewById(R.id.edAddress);
+        show_btn = findViewById(R.id.show_btn);
+
+        //Database Creation & Insert Data
+        myDBHelper = new MyDBHelper(this);
+
+
+
+        // Add_btn & show_btn Click Listener Here
+        Add_btn.setOnClickListener(v -> Add_btn_Click());
+        show_btn.setOnClickListener(v -> Show_btn_Click());
+
+    }//onCreate Method
+
+    //Show Data Button Click Listener
+    private void Add_btn_Click() {
+
+        if (edName.getText().toString().isEmpty() || edAddress.getText().toString().isEmpty() || edAge.getText().toString().isEmpty() || edGender.getText().toString().isEmpty()) {
+            edName.setError("Please Enter Name");
+            edAddress.setError("Please Enter Address");
+            edAge.setError("Please Enter Age");
+            edGender.setError("Please Enter Gender");
+        }else {
+            String name = edName.getText().toString();
+            String address = edAddress.getText().toString();
+            String age = edAge.getText().toString();
+            String gender = edGender.getText().toString();
+
+            //Insert Data to Database & Check Result
+            long result = myDBHelper.insertData(name, address, Integer.parseInt(age), gender);
+            if (result == -1){
+                Toast.makeText(this, "Insert Failed", Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(this, "Insert Successfully", Toast.LENGTH_SHORT).show();
+            }
+            //Clear Edit Text After Insert Data
+            edName.setText("");
+            edAddress.setText("");
+            edAge.setText("");
+            edGender.setText("");
+            edName.requestFocus();
+        }
+    }// END
+    //Show Data Button Click Listener
+    public void Show_btn_Click() {
+
+        Cursor cursor = myDBHelper.FetchData();
+
+        if (cursor.getCount() ==0){
+            //Show message Here
+            Show_Data("Error", "No Data Found");
+            return;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        while (cursor.moveToNext()){
+            stringBuffer.append("ID : "+cursor.getString(0)+"\n");
+            stringBuffer.append("NAME : "+cursor.getString(1)+"\n");
+            stringBuffer.append("ADDRESS : "+cursor.getString(2)+"\n");
+            stringBuffer.append("AGE : "+cursor.getString(3)+"\n");
+            stringBuffer.append("GENDER : "+cursor.getString(4)+"\n \n");
+        }
+        Show_Data("All Data", stringBuffer.toString());
+    }//END
+
+    public void Show_Data(String title, String data){
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(title);
+        alertDialog.setMessage(data);
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+
+    }
+}//Main Class
