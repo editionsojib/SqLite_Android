@@ -97,4 +97,20 @@
         android:layout_marginTop="10dp"
         android:text="@string/update_data" />
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/DeleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/update_dataBtn"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="104dp"
+        android:layout_marginBottom="220dp"
+        android:minHeight="48dp"
+        android:text="@string/delete_data"
+        tools:ignore="TouchTargetSizeCheck" />
+
 </RelativeLayout>

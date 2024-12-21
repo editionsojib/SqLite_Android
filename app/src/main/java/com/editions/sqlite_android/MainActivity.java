@@ -19,7 +19,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class MainActivity extends AppCompatActivity {
 
     EditText edName, edAge, edGender, edAddress;
-    Button Add_btn, show_btn, update_dataBtn;
+    Button Add_btn, show_btn, update_dataBtn, deleteBtn;
 
     MyDBHelper myDBHelper;
 
@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         edAddress = findViewById(R.id.edAddress);
         show_btn = findViewById(R.id.show_btn);
         update_dataBtn = findViewById(R.id.update_dataBtn);
+        deleteBtn = findViewById(R.id.DeleteBtn);
 
         //Database Creation & Insert Data
         myDBHelper = new MyDBHelper(this);
@@ -52,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         Add_btn.setOnClickListener(v -> Add_btn_Click());
         show_btn.setOnClickListener(v -> Show_btn_Click());
         update_dataBtn.setOnClickListener(v -> Update_btn_Click());
+        update_dataBtn.setOnClickListener(v -> Delete_btn_Click());
+
 
     }//onCreate Method
 
@@ -140,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             if (id.isEmpty() || name.isEmpty() || address.isEmpty() || age.isEmpty() || gender.isEmpty()){
                 Toast.makeText(this, "All Field Required", Toast.LENGTH_SHORT).show();
             }else {
-                Toast.makeText(this, "Update Successfully", Toast.LENGTH_SHORT).show();
+
                 SQLiteDatabase sqLiteDatabase = myDBHelper.getWritableDatabase();
                 sqLiteDatabase.execSQL("UPDATE Student_table SET name = '"+name+"', address = '"+address+"', age = '"+age+"', gender = '"+gender+"' WHERE id = '"+id+"'");
 
@@ -149,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 edAddress.setText("");
                 edAge.setText("");
                 edGender.setText("");
+                Toast.makeText(this, "Update Successfully", Toast.LENGTH_SHORT).show();
 
 
 
@@ -160,6 +164,14 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }//END
+    public void Delete_btn_Click(){
+        //Create LayoutInfiltrator
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View view = layoutInflater.inflate(R.layout.delete_layout, null);
+
+
 
     }
+
 }//Main Class

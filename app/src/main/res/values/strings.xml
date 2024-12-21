@@ -10,4 +10,6 @@
     <string name="update_data">Update Data</string>
     <string name="id">id</string>
     <string name="update">Update</string>
+    <string name="delete_data">Delete Data</string>
+    <string name="delete">Delete</string>
 </resources>
