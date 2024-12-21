@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
             if (id.isEmpty() || name.isEmpty() || address.isEmpty() || age.isEmpty() || gender.isEmpty()){
                 Toast.makeText(this, "All Field Required", Toast.LENGTH_SHORT).show();
             }else {
-                Toast.makeText(this, "Update Successfully", Toast.LENGTH_SHORT).show();
+
                 SQLiteDatabase sqLiteDatabase = myDBHelper.getWritableDatabase();
                 sqLiteDatabase.execSQL("UPDATE Student_table SET name = '"+name+"', address = '"+address+"', age = '"+age+"', gender = '"+gender+"' WHERE id = '"+id+"'");
 
@@ -149,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 edAddress.setText("");
                 edAge.setText("");
                 edGender.setText("");
+                Toast.makeText(this, "Update Successfully", Toast.LENGTH_SHORT).show();
 
 
 
