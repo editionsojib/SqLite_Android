@@ -170,7 +170,30 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View view = layoutInflater.inflate(R.layout.delete_layout, null);
 
+        EditText delete_id = view.findViewById(R.id.edDelete_id);
 
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(view);
+        builder.setCancelable(false);
+        builder.setTitle("Delete Data");
+        builder.setPositiveButton("Delete", (dialog, which) -> {
+            String id = delete_id.getText().toString();
+            if (id.isEmpty()){
+                Toast.makeText(this, "All Field Required", Toast.LENGTH_SHORT).show();
+            }else {
+                SQLiteDatabase sqLiteDatabase = myDBHelper.getWritableDatabase();
+                sqLiteDatabase.execSQL("DELETE FROM Student_table WHERE id = '"+id+"'");
+                delete_id.setText("");
+                Toast.makeText(this, "Delete Successfully", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            delete_id.setText("");
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
 
     }
 
