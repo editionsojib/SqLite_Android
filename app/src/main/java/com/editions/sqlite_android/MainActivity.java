@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     }//onCreate Method
 
-    //Show Data Button Click Listener
+    //Add Data Button Click Listener
     private void Add_btn_Click() {
 
         if (edName.getText().toString().isEmpty() || edAddress.getText().toString().isEmpty() || edAge.getText().toString().isEmpty() || edGender.getText().toString().isEmpty()) {
